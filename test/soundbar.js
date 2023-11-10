@@ -35,20 +35,19 @@ function setup() {
 }
 
 function draw() {
-  background(200);
-
-  if (micStarted) {
-    let vol = mic.getLevel();
-    let h = vol * height * 5; // 音量に応じて高さを計算
-
-    let spectrum = fft.analyze();
-    for (let i = 0; i < numBars; i++) {
-      let amplitude = spectrum[i];
-      let y = map(amplitude, 0, 256, height, 0);
-      let col = color(map(i, 0, numBars, 0, 255), 100, 255 - map(i, 0, numBars, 0, 255));
-      fill(col);
-      let w = width / numBars;
-      rect(i * w, height, w - 2, -y);
+    background(0);
+  
+    if (micStarted) {
+      let vol = mic.getLevel();
+      let spectrum = fft.analyze();
+      for (let i = 0; i < numBars; i++) {
+        let amplitude = spectrum[i];
+        let y = map(amplitude, 0, 256, 0, height); // 高さをキャンバスの高さにマッピング
+        let col = color(map(i, 0, numBars, 0, 255), 100, 255 - map(i, 0, numBars, 0, 255));
+        fill(col);
+        let w = width / numBars;
+        rect(i * w, height - y, w - 2, y); // Y座標をキャンバスの高さからバーの高さを引いた値に設定
+      }
     }
   }
-}
+  
