@@ -1,2 +1,5 @@
 target/
 .env
+
+# ignore all target folders recursively
+**/target/**
